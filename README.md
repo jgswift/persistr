@@ -15,17 +15,17 @@ php composer.phar require jgswift/persistr:dev-master
 
 persistr is a lightweight php package which implements a loose persistence layer somewhat similar to A/R
 
-persistr does not necessarily use annotations or otherwise any kind of model metadata when defining models
+persistr does not necessarily use annotations or otherwise any kind of model metadata when defining models. However, that does not preclude the inclusion of a formal modeling component
 
-Additionally, persistr Models may be solely relied on for any data-source interaction.  It is typically bad practice to put platform-dependant code in the Persistent interface implementation.
-
-However, that does not preclude the inclusion of a formal modeling component
+Additionally, persistr Models may be solely relied on for any data source transactions.  It is typically bad practice to put platform-dependant code in the Persistent interface implementation.  Such code is only appropriate on the model itself.
 
 persistr assumes you know how to interact with your respective data-source and is not a full-on database abstraction layer
 
-the persistence layer may be implemented using traits, interfaces, or simple class definitions
+persistr makes the distinction between persistence implementations for objects based on signature criteria such as the presence of traits, interfaces, or even simply an individual class name alone
 
-The following is a default example (which uses an interface/trait pair)
+When persistence is applied to an individual class, all inheriting class should naturally have the same extensions
+
+The following is a default example with a blank model useing an interface/trait pair
 ```php
 <?php
 class MyUser implements persistr\Interfaces\Persistent {
