@@ -23,7 +23,7 @@ persistr assumes you know how to interact with your respective data-source and i
 
 persistr makes the distinction between persistence implementations for objects based on signature criteria such as the presence of traits, interfaces, or even simply an individual class name alone
 
-When persistence is applied to an individual class, all inheriting class should naturally have the same extensions
+When persistence is applied to an individual class, all inheriting classes naturally have the same extensions by default
 
 The following is a default example with a blank model using an interface/trait pair signature (the interface is the distinct element by default)
 ```php
