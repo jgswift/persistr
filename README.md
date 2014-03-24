@@ -25,7 +25,7 @@ persistr makes the distinction between persistence implementations for objects b
 
 When persistence is applied to an individual class, all inheriting class should naturally have the same extensions
 
-The following is a default example with a blank model useing an interface/trait pair
+The following is a default example with a blank model using an interface/trait pair signature (the interface is the distinct element by default)
 ```php
 <?php
 class MyUser implements persistr\Interfaces\Persistent {
