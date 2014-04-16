@@ -123,6 +123,18 @@ namespace persistr {
                 throw new Exception('Persistor invalid ("'.$className.'")');
             }
             
+            if(empty($model)) {
+                if(@class_exists($className)) {
+                    $parents = class_parents($className);
+
+                    if(!empty($parents)) {
+                        return self::getModelByName($parents[array_keys($parents)[0]]);
+                    } else {
+                        throw new Exception('Model not found for object type("'.$className.'")');
+                    }
+                }
+            }
+            
             return $model;
         }
         
@@ -192,14 +204,8 @@ namespace persistr {
             }
 
             $fullClassName = get_class($object);
-            $possibleModelNames = array_merge([$fullClassName],class_parents($fullClassName));
 
-            foreach($possibleModelNames as $className) {
-                $model = self::getModelByName($className);
-                if(!is_null($model)) {
-                    break;
-                }
-            }
+            $model = self::getModelByName($fullClassName);
             
             if(!is_null($model)) {
                 $objectRegistry = $model->getRegistry();
@@ -208,26 +214,27 @@ namespace persistr {
                 if($objectRegistry->hasDataFilters()) {
                     $filters = self::getDataFiltersByModel($model);
 
-                    if(!empty($filters)) {
-                        foreach($filters as $filter) {
-                            if(\is_callable($filter)) {
-                                $filter([],$object);
-                            }
-                        }
-                    }
+                    self::filter($filters,$object);
                 }
             } else {
-//                try {
-//                    foreach($possibleModelNames as $modelName) {
-//                        $model = self::createBlankPersistor($modelName);
-//                        if(!is_null($model)) {
-//                            self::setModel($object,$model);
-//                            break;
-//                        }
-//                    }
-//                } catch(\Exception $e) {
-                    throw new Exception('Model not found : object ('.print_r($possibleModelNames,true).').');
-//                }
+                throw new Exception('Model not found : object ('.$fullClassName.').');
+            }
+        }
+        
+        /**
+         * Helper method
+         * Performs initialization filtering
+         * Defaults to blank object
+         * @param array $filters
+         * @param object $object
+         */
+        protected static function filter(array $filters,$object) {
+            if(!empty($filters)) {
+                foreach($filters as $filter) {
+                    if(\is_callable($filter)) {
+                        $filter([],$object);
+                    }
+                }
             }
         }
 
