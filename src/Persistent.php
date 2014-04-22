@@ -7,7 +7,7 @@ namespace persistr {
          * An object must be persisted before it can be bound to
          */
         function __construct() {
-            $this->persist(func_get_args());
+            $this->persist();
         }
 
         /**
