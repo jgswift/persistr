@@ -25,10 +25,9 @@ namespace persistr {
          * Main persistence method, all new persisted objects must execute this
          * in the constructor
          * @param mixed $object
-         * @param array $options
          */
-        public static function persist($object, $options) {
-            self::setup($object, $options);
+        public static function persist($object) {
+            self::setup($object);
         }
 
         /**
@@ -187,10 +186,9 @@ namespace persistr {
         /**
          * Performs setup method to prepare object for persistence
          * @param mixed $object
-         * @param array $options
          * @throws Exception
          */
-        public static function setup($object, $options) {
+        public static function setup($object) {
             $fullClassName = get_class($object);
 
             $model = self::getModelByName($fullClassName);
