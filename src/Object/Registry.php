@@ -86,10 +86,12 @@ namespace persistr\Object {
                 if($persistor->hasOutputFilters()) {
                     $outputFilterClasses = $persistor->getOutputFilters();
 
-                    foreach($outputFilterClasses as $filterClass) {
-                        if(@class_exists($filterClass)) {
-                            $filter = new $filterClass($typeName);
-                            $outputFilters[] = $filter;
+                    if(is_array($outputFilterClasses)) {
+                        foreach($outputFilterClasses as $filterClass) {
+                            if(@class_exists($filterClass)) {
+                                $filter = new $filterClass($typeName);
+                                $outputFilters[] = $filter;
+                            }
                         }
                     }
                 }

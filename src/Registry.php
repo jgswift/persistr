@@ -66,9 +66,9 @@ namespace persistr {
         /**
          * Factory method to add persistence layer to class, interface, or trait
          * @param string $sourceAsset
-         * @return persistr\Persistor
+         * @return \persistr\Persistor
          */
-        public static function persistClass($sourceAsset,persistr\Persistor $persistor=null) {
+        public static function persistClass($sourceAsset,Persistor $persistor=null) {
             foreach(self::$persistors as $p) {
                 if($p->isTrait() && $p->using($sourceAsset)) {
                     $persistor = $p;
@@ -79,7 +79,7 @@ namespace persistr {
                 }
             }
             
-            if($persistor instanceof persistr\Persistor) {
+            if($persistor instanceof Persistor) {
                 self::$persisted[$sourceAsset] = $persistor;
                 return $persistor;
             }
