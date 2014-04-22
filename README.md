@@ -3,6 +3,7 @@ persistr
 PHP 5.5+ lightweight persistence layer
 
 [![Build Status](https://travis-ci.org/jgswift/persistr.png?branch=master)](https://travis-ci.org/jgswift/persistr)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/jgswift/persistr/badges/quality-score.png?s=96ef5b2c0baacd1db5f5bbccd23057de138f2822)](https://scrutinizer-ci.com/g/jgswift/persistr/)
 
 ## Installation
 

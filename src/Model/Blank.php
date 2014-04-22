@@ -19,7 +19,7 @@ namespace persistr\Model {
         /**
          * Generic model constructor
          * Models should not typically accept class name datum in constructor
-         * @param type $className
+         * @param string $className
          */
         function __construct($className) {
             $this->className = $className;

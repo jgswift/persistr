@@ -156,8 +156,8 @@ namespace persistr\Object {
 
         /**
          * Retrieves callable output filters by object
-         * @param type $object
-         * @return type
+         * @param mixed $object
+         * @return mixed
          */
         function getOutputCallbacks($object=null) {
             $typeName = $this->typeName;

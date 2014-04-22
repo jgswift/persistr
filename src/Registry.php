@@ -28,11 +28,6 @@ namespace persistr {
          * @param array $options
          */
         public static function persist($object, $options) {
-            $args = [];
-            if(isset($options['args'])) {
-                $args = $options['args'];
-            }
-
             self::setup($object, $options);
         }
 
@@ -91,7 +86,6 @@ namespace persistr {
          * @param string $className
          */
         public static function getPersistorByName($className) {
-            $persistor = null;
             if(self::persisted($className)) {
                 $persistor = self::persistor($className);
             } else {
@@ -113,7 +107,6 @@ namespace persistr {
          * @throws Exception
          */
         public static function getModelByName($className) {
-            $model = null;
             $persistor = self::getPersistorByName($className);
             
             if($persistor instanceof Persistor) {
@@ -193,16 +186,11 @@ namespace persistr {
 
         /**
          * Performs setup method to prepare object for persistence
-         * @param object $object
+         * @param mixed $object
          * @param array $options
          * @throws Exception
          */
         public static function setup($object, $options) {
-            $args = [];
-            if(isset($options['args'])) {
-                $args = $options['args'];
-            }
-
             $fullClassName = get_class($object);
 
             $model = self::getModelByName($fullClassName);
@@ -226,7 +214,7 @@ namespace persistr {
          * Performs initialization filtering
          * Defaults to blank object
          * @param array $filters
-         * @param object $object
+         * @param mixed $object
          */
         protected static function filter(array $filters,$object) {
             if(!empty($filters)) {
@@ -272,7 +260,7 @@ namespace persistr {
         /**
          * Helper function
          * Retrieves object registry by model
-         * @param object $object
+         * @param mixed $object
          * @return persistr\Object\Registry
          */
         private static function modelRegistry($object) {
@@ -282,7 +270,7 @@ namespace persistr {
 
         /**
          * Checks if object has data filters
-         * @param object $object
+         * @param mixed $object
          * @return boolean
          */
         public static function filtered($object) {
@@ -302,7 +290,7 @@ namespace persistr {
         /**
          * Helper method
          * Retrieves persistence model by object
-         * @param object $object
+         * @param mixed $object
          * @return persistr\Interfaces\Model
          * @throws Exception
          */
@@ -323,7 +311,7 @@ namespace persistr {
         /**
          * Sets persistence model for object
          * newModel may be model itself or the models absolute name
-         * @param object $object
+         * @param mixed $object
          * @param mixed $newModel
          */
         public static function setModel($object, $newModel) {
