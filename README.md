@@ -14,7 +14,7 @@ php composer.phar require jgswift/persistr:dev-master
 
 ## Usage
 
-persistr is a lightweight php package which implements a loose persistence layer somewhat similar to A/R
+persistr is a lightweight php package which implements a loose persistence layer.
 
 persistr does not necessarily use annotations or otherwise any kind of model metadata when defining models. However, that does not preclude the inclusion of a formal modeling component
 
@@ -46,3 +46,68 @@ $value = $user->foo;
 
 var_dump($value); // returns 'bar'
 ```
+
+It is not necessary to specify the interface on class above, as the signature is already recognized simply given a trait.  Multiple identification techniques are available, namely ```trait```, ```interface```, ```class```.
+
+Below is an example of setting up a custom class-based persistence interface.
+
+First we start by defining a model class, input/output filters, and finally register it to the persistence layer.
+
+```php
+// MODEL CLASS
+class MyUserModel implements persistr\Interfaces\Model {
+    private $className;
+    private static $registry;
+
+    function __construct($className) {
+        $this->className = $className;
+        if(empty(self::$registry)) {
+            self::$registry = new persistr\Object\Registry($this,$className);
+        }
+    }
+
+    public function getClassName() {
+        return $this->className;
+    }
+
+    public function getRegistry() {
+        return self::$registry;
+    }
+
+    public function bind($attribute, callable $callable=null) {
+        persistr\Object\Binding\Registry::bind(self::$registry->getTypeName(), $attribute, $callable);
+        return $this;
+    }
+
+    public function bindTo($object,$attribute,callable $callable=null) {
+        persistr\Object\Binding\Registry::bindTo($object, $attribute, $callable);
+        return $this;
+    }
+}
+
+// I/O Filters
+// INPUT
+class MyUserDataFilter {
+    use kfiltr\Mapper;
+}
+
+// OUTPUT
+class MyUserOutputFilter {
+    use kfiltr\Mapper;
+}
+
+$datafilter = new MyUserDataFilter();
+$outputfilter = new MyUserOutputFilter();
+
+// PERSISTENCE REGISTRATION
+$datasource = new qtil\Collection();
+
+$persistor = new persistr\Persistor('MyUser', $datasource, $datafilter, $outputfilter);
+persistr\Registry::register($persistor);
+
+$model = new MyUserModel('MyUser');
+
+$this->datasource->insert('MyUser',$mockModel);
+```
+
+Now when a MyUser object is instantiated, the given MyUserModel model will be used to map the object.
