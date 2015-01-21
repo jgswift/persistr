@@ -11,7 +11,9 @@ namespace persistr\Tests {
             
             $this->datasource = $datasource = new qtil\Collection();
             
-            $persistor = new persistr\Persistor('persistr\Tests\Mock\MockPersistedObject', $datasource, $datafilter, $outputfilter);
+            $persistenceModel = new \persistr\PersistenceModel($datasource,$datafilter,$outputfilter);
+            
+            $persistor = new persistr\Persistor('persistr\Tests\Mock\MockPersistedObject', $persistenceModel);
             persistr\Registry::register($persistor);
             
             $modelClass = 'persistr\Tests\Mock\MockPersistedObject';

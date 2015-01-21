@@ -137,8 +137,9 @@ namespace persistr {
          */
         private static function createBlankPersistor($className) {
             $datasource = new qtil\Collection();
+            $persistenceModel = new PersistenceModel($datasource);
 
-            $persistor = new Persistor($className, $datasource);
+            $persistor = new Persistor($className, $persistenceModel);
             self::register($persistor);
 
             $model = new Model\Blank($className);

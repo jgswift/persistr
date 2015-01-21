@@ -10,23 +10,11 @@ namespace persistr {
         private $sourceAsset;
         
         /**
-         * Data source from which to obtain model definitions
-         * @var mixed 
+         * Local persistence model storage
+         * @var \persistr\PersistenceModel
          */
-        private $datasource;
+        private $persistenceModel;
         
-        /**
-         * List of data filters used by persistence interface
-         * @var mixed 
-         */
-        private $datafilter;
-        
-        /**
-         * List of output filters used by persistence interface
-         * @var array 
-         */
-        private $outputfilter;
-
         /**
          * Persistor constructor
          * 
@@ -36,23 +24,13 @@ namespace persistr {
          * @param mixed $datafilter
          * @param mixed $outputfilter
          */
-        public function __construct($sourceAsset, $datasource, $datafilter=null, $outputfilter=null) {
+        public function __construct($sourceAsset, PersistenceModel $model = null) {
             $this->sourceAsset = $sourceAsset;
 
-            if(qtil\ArrayUtil::isIterable($datasource)) {
-                $this->datasource = $datasource;
+            if(is_null($model)) {
+                $model = new PersistenceModel();
             }
-
-            if(!is_null($datafilter) && !qtil\ArrayUtil::isIterable($datafilter)) {
-                $datafilter = [$datafilter];
-            }
-
-            if(!is_null($outputfilter) && !qtil\ArrayUtil::isIterable($outputfilter)) {
-                $outputfilter = [$outputfilter];
-            }
-
-            $this->datafilter = $datafilter;
-            $this->outputfilter = $outputfilter;
+            $this->persistenceModel = $model;
         }
         
         /**
@@ -68,7 +46,7 @@ namespace persistr {
          * @return array
          */
         function getDataSource() {
-            return $this->datasource;
+            return $this->persistenceModel->getDataSource();
         }
         
         /**
@@ -108,7 +86,7 @@ namespace persistr {
          * @return boolean
          */
         public function isClass() {
-            return @class_exists($this->sourceAsset) ? true : false;
+            return class_exists($this->sourceAsset) ? true : false;
         }
         
         /**
@@ -116,7 +94,7 @@ namespace persistr {
          * @return boolean
          */
         public function isInterface() {
-            return @interface_exists($this->sourceAsset) ? true : false;
+            return interface_exists($this->sourceAsset) ? true : false;
         }
         
         /**
@@ -124,7 +102,7 @@ namespace persistr {
          * @return boolean
          */
         public function isTrait() {
-            return @trait_exists($this->sourceAsset) ? true : false;
+            return trait_exists($this->sourceAsset) ? true : false;
         }
 
         /**
@@ -132,7 +110,7 @@ namespace persistr {
          * @return array
          */
         public function getOutputFilters() {
-            return $this->outputfilter;
+            return $this->persistenceModel->getOutputFilters();
         }
 
         /**
@@ -140,7 +118,7 @@ namespace persistr {
          * @return array
          */
         public function getDataFilters() {
-            return $this->datafilter;
+            return $this->persistenceModel->getDataFilters();
         }
         
         /**
@@ -148,7 +126,7 @@ namespace persistr {
          * @return boolean
          */
         public function hasDataFilters() {
-            return !empty($this->datafilter);
+            return $this->persistenceModel->hasDataFilters();
         }
         
         /**
@@ -156,7 +134,7 @@ namespace persistr {
          * @return boolean
          */
         public function hasOutputFilters() {
-            return !empty($this->outputfilter);
+            return $this->persistenceModel->hasOutputFilters();
         }
     }
 }

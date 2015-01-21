@@ -85,29 +85,13 @@ class MyUserModel implements persistr\Interfaces\Model {
     }
 }
 
-// I/O Filters
-// INPUT
-class MyUserDataFilter {
-    use kfiltr\Mapper;
-}
-
-// OUTPUT
-class MyUserOutputFilter {
-    use kfiltr\Mapper;
-}
-
-$datafilter = new MyUserDataFilter();
-$outputfilter = new MyUserOutputFilter();
-
 // PERSISTENCE REGISTRATION
-$datasource = new qtil\Collection();
-
-$persistor = new persistr\Persistor('MyUser', $datasource, $datafilter, $outputfilter);
+$persistor = new persistr\Persistor('MyUser');
 persistr\Registry::register($persistor);
 
 $model = new MyUserModel('MyUser');
 
-$this->datasource->insert('MyUser',$mockModel);
+$persistor->getDataSource()->insert('MyUser',$model);
 ```
 
 Now when a MyUser object is instantiated, the given MyUserModel model will be used to map the object.
