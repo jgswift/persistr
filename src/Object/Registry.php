@@ -49,7 +49,7 @@ namespace persistr\Object {
         
         /**
          * Constructor for empty object registry
-         * @param string $model
+         * @param mixed $model
          * @param string $typeName
          * @throws persistr\Exception
          */
