@@ -20,9 +20,7 @@ namespace persistr {
          * 
          * Both filter arguments can accept either a single filter or an array of filters
          * @param string $sourceAsset
-         * @param mixed $datasource
-         * @param mixed $datafilter
-         * @param mixed $outputfilter
+         * @param \persistr\PersistenceModel $model
          */
         public function __construct($sourceAsset, PersistenceModel $model = null) {
             $this->sourceAsset = $sourceAsset;
