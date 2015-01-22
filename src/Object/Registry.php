@@ -116,8 +116,8 @@ namespace persistr\Object {
 
         /**
          * Helper function to get persistor output filters by type name
-         * @param type $typeName
-         * @return type
+         * @param string $typeName
+         * @return array an array of callable output filters
          */
         static function getOutputFiltersByType($typeName) {
             if(array_key_exists($typeName,self::$outputfilters)) {
@@ -253,7 +253,7 @@ namespace persistr\Object {
 
         /**
          * Checks if persistence layer has output filters
-         * @return type
+         * @return boolean
          */
         function hasOutputFilters() {
             return array_key_exists($this->typeName,self::$outputfilters) && (count(self::$outputfilters[$this->typeName]) > 0);
@@ -308,7 +308,7 @@ namespace persistr\Object {
 
         /**
          * Add instance to persistence layer
-         * @param \persistr\Object\typeName $object
+         * @param mixed $object
          * @throws persistr\Exception
          */
         function addInstance($object) {
