@@ -23,7 +23,7 @@ namespace persistr\Object\Binding {
         
         /**
          * Binds callable to type by name
-         * @param string $typeName
+         * @param mixed $typeName
          * @param string $name
          * @param callable $callback
          */
