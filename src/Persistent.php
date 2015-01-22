@@ -12,7 +12,6 @@ namespace persistr {
 
         /**
          * Global implementation of Interfaces\Persistent
-         * @param array $args
          */
         protected function persist() {
             Registry::persist($this);
